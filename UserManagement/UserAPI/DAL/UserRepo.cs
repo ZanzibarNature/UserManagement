@@ -10,8 +10,8 @@ namespace UserAPI.DAL
         public UserRepo()
         {
             TableServiceClient serviceClient = new TableServiceClient("UseDevelopmentStorage=true");
-            serviceClient.CreateTableIfNotExistsAsync("user-table");
-            _tableClient = serviceClient.GetTableClient("user-table");
+            serviceClient.CreateTableIfNotExistsAsync("users");
+            _tableClient = serviceClient.GetTableClient("users");
         }
 
         public async Task<T> GetUserByKeyAsync(string partitionKey, string rowKey)
