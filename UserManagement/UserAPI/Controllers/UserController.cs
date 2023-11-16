@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Concurrent;
 using UserAPI.Domain;
-using UserAPI.Domain.DTO;
+using UserAPI.Service;
 
 namespace UserAPI.Controllers
 {
@@ -8,28 +9,31 @@ namespace UserAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        public UserController()
+        private readonly UserService _userService;
+        public UserController(UserService userService)
         {
-            // inject services
+            _userService = userService;
         }
 
-        [HttpGet("GetById/{id}")]
-        public IActionResult GetById(int id)
+        [HttpGet("GetByKey/{partitionKey}/{rowKey}")]
+        public async Task<IActionResult> GetByKey(string partitionKey, string rowKey)
         {
-            return Ok();
+            var user = await _userService.GetUserByKeyAsync(partitionKey, rowKey);
+
+            return user == null ? NotFound() : Ok(user);
         }
 
         [HttpPost("Create")]
-        public IActionResult Create([FromBody] CreateUserDTO userDTO)
+        public async Task<IActionResult> Create([FromBody] CreateUserDTO userDTO)
         {
             if (userDTO == null)
             {
                 return BadRequest("Invalid data in the request body");
             }
 
-            RetrieveUserDTO newUser = new RetrieveUserDTO(); // add service and repo layers
+            UserEntity newUser = await _userService.UpsertUserAsync(userDTO);
 
-            return CreatedAtAction("GetById", new { id = newUser.ID }, newUser);
+            return CreatedAtAction(nameof(GetByKey), new { partitionKey = newUser.PartitionKey, rowKey = newUser.RowKey }, newUser);
         }
     }
 }

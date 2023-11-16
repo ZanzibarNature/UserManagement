@@ -1,4 +1,4 @@
-﻿namespace UserAPI.Domain.DTO
+﻿namespace UserAPI.Domain
 {
     public class CreateUserDTO : UserBase
     {

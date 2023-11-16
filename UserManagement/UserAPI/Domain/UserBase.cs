@@ -10,5 +10,7 @@ namespace UserAPI.Domain
         public string LastName { get; set; }
 
         public string Email { get; set; }
+
+        public UserType UserType { get; set; }
     }
 }
