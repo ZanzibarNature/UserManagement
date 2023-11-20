@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Concurrent;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UserAPI.Domain;
 using UserAPI.Service;
 
@@ -24,6 +24,7 @@ namespace UserAPI.Controllers
         }
 
         [HttpPost("Create")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create([FromBody] CreateUserDTO userDTO)
         {
             if (userDTO == null)

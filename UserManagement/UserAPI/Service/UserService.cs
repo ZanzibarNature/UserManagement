@@ -15,6 +15,8 @@ namespace UserAPI.Service
         {
             UserEntity newUser = new UserEntity
             {
+                PartitionKey = user.UserType.ToString(),
+                RowKey = Guid.NewGuid().ToString(),
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
