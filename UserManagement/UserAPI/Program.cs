@@ -1,4 +1,4 @@
-using UserAPI.DAL;
+﻿using UserAPI.DAL;
 using UserAPI.Domain;
 using UserAPI.Service;
 
@@ -20,7 +20,8 @@ namespace UserAPI
             // Add Repositories
             builder.Services.AddScoped<UserRepo<UserEntity>>();
 
-
+            // TO DO: Add security via the KeyCloak server
+    
             var app = builder.Build();
 
             if (!app.Environment.IsDevelopment())

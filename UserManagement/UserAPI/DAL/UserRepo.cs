@@ -10,7 +10,7 @@ namespace UserAPI.DAL
         public UserRepo()
         {
             TableServiceClient serviceClient = new TableServiceClient("UseDevelopmentStorage=true");
-            serviceClient.CreateTableIfNotExistsAsync("users");
+            serviceClient.CreateTableIfNotExists("users");
             _tableClient = serviceClient.GetTableClient("users");
         }
 

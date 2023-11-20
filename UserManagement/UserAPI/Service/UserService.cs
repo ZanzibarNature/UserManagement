@@ -15,12 +15,12 @@ namespace UserAPI.Service
         {
             UserEntity newUser = new UserEntity
             {
-                PartitionKey = user.UserType.ToString(),
+                PartitionKey = user.UserType,
                 RowKey = Guid.NewGuid().ToString(),
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                UserType = user.UserType
+                UserType = (UserType)Enum.Parse(typeof(UserType), user.UserType)
             };
 
             await _userRepo.UpsertUserAsync(newUser);
