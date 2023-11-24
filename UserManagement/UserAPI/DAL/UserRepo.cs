@@ -4,7 +4,7 @@ using UserAPI.Domain;
 
 namespace UserAPI.DAL
 {
-    public class UserRepo<T> where T : class, ITableEntity, new()
+    public class UserRepo<T> : IUserRepo<T> where T : class, ITableEntity, new()
     {
         private readonly TableClient _tableClient;
 
