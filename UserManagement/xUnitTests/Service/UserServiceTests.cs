@@ -47,7 +47,8 @@ namespace xUnitTests.Service
         {
             // Arrange
             IUserService userService = new UserService(_userRepoMock.Object);
-            var userEntity = new UserEntity
+
+            UserEntity userEntity = new UserEntity
             {
                 PartitionKey = "User",
                 RowKey = _mockRowKey.ToString(),

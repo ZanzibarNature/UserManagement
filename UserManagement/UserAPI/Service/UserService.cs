@@ -1,4 +1,5 @@
-﻿using UserAPI.DAL;
+﻿using Azure;
+using UserAPI.DAL;
 using UserAPI.Domain;
 
 namespace UserAPI.Service
@@ -29,7 +30,8 @@ namespace UserAPI.Service
 
         public async Task<UserEntity> UpdateUserAsync(UserEntity user)
         {
-            return await _userRepo.UpsertUserAsync(user);
+            var updatedUser = await _userRepo.UpsertUserAsync(user);
+            return updatedUser;
         }
 
         public async Task<UserEntity> GetUserByKeyAsync(string partitionKey, string rowKey)
