@@ -11,7 +11,7 @@ namespace UserAPI.Service
             _userRepo = userRepo;
         }
 
-        public async Task<UserEntity> UpsertUserAsync(CreateUserDTO user)
+        public async Task<UserEntity> CreateUserAsync(CreateUserDTO user)
         {
             UserEntity newUser = new UserEntity
             {
@@ -27,9 +27,24 @@ namespace UserAPI.Service
             return newUser;
         }
 
+        public async Task<UserEntity> UpdateUserAsync(UserEntity user)
+        {
+            return await _userRepo.UpsertUserAsync(user);
+        }
+
         public async Task<UserEntity> GetUserByKeyAsync(string partitionKey, string rowKey)
         {
             return await _userRepo.GetUserByKeyAsync(partitionKey, rowKey);
+        }
+
+        public async Task<IEnumerable<UserEntity>> GetPageOfUsersAsync()
+        {
+            return await _userRepo.GetPageOfUsersAsync();
+        }
+
+        public async Task DeleteUserAsync(string partitionKey, string rowKey)
+        {
+            await _userRepo.DeleteUserAsync(partitionKey, rowKey);
         }
     }
 }

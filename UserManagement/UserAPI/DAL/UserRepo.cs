@@ -1,5 +1,6 @@
 ﻿using Azure;
 using Azure.Data.Tables;
+using UserAPI.Domain;
 
 namespace UserAPI.DAL
 {
@@ -20,26 +21,15 @@ namespace UserAPI.DAL
             return response.Value;
         }
 
-        public async Task<Tuple<string, IEnumerable<T>>?> GetPageOfUsersAsync(string continuationToken)
+        public async Task<IEnumerable<T>> GetPageOfUsersAsync()
         {
-            try
+            IList<T> results = new List<T>();
+            var users = _tableClient.QueryAsync<T>(maxPerPage: 10);
+            await foreach (var user in users)
             {
-                var query = _tableClient.QueryAsync<T>(filter: "", maxPerPage: 10);
-                var results = new List<T>();
-
-                await foreach (var page in query.AsPages(continuationToken))
-                {
-                    return Tuple.Create<string, IEnumerable<T>>(page.ContinuationToken, page.Values);
-                }
-
-                throw new RequestFailedException("No new pages available");
+                results.Add(user);
             }
-            catch (RequestFailedException ex)
-            {
-                // Handle exceptions
-                Console.WriteLine($"Error getting all entities: {ex.Message}");
-                return null;
-            }
+            return results;
         }
 
         public async Task<T> UpsertUserAsync(T user)
