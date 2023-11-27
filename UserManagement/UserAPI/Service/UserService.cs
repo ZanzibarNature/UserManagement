@@ -7,7 +7,7 @@ namespace UserAPI.Service
     public class UserService : IUserService
     {
         private readonly IUserRepo<UserEntity> _userRepo;
-        public UserService(UserRepo<UserEntity> userRepo)
+        public UserService(IUserRepo<UserEntity> userRepo)
         {
             _userRepo = userRepo;
         }

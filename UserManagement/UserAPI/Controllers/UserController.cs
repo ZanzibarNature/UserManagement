@@ -10,7 +10,7 @@ namespace UserAPI.Controllers
     public class UserController : ControllerBase, IUserController
     {
         private readonly IUserService _userService;
-        public UserController(UserService userService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
         }
