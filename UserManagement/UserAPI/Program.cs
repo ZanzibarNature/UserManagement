@@ -15,10 +15,10 @@ namespace UserAPI
             builder.Services.AddSwaggerGen();
 
             // Add Services
-            builder.Services.AddScoped<UserService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             // Add Repositories
-            builder.Services.AddScoped<UserRepo<UserEntity>>();
+            builder.Services.AddScoped<IUserRepo<UserEntity>, UserRepo<UserEntity>>();
 
             // TO DO: Add security via the KeyCloak server
     

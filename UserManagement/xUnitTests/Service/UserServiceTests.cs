@@ -59,7 +59,10 @@ namespace xUnitTests.Service
             };
 
             // Act
-            UserEntity result = await userService.UpdateUserAsync(userEntity);
+            //UserEntity result = await userService.UpdateUserAsync(userEntity);
+            Task<UserEntity> updateUserTask = userService.UpdateUserAsync(userEntity);
+            updateUserTask.Wait(); // Blocking call
+            UserEntity result = updateUserTask.Result;
 
             // Assert
             Assert.NotNull(result);
