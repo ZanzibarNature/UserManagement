@@ -59,10 +59,7 @@ namespace xUnitTests.Service
             };
 
             // Act
-            //UserEntity result = await userService.UpdateUserAsync(userEntity);
-            Task<UserEntity> updateUserTask = userService.UpdateUserAsync(userEntity);
-            updateUserTask.Wait(); // Blocking call
-            UserEntity result = updateUserTask.Result;
+            UserEntity result = await userService.UpdateUserAsync(userEntity);
 
             // Assert
             Assert.NotNull(result);
@@ -131,6 +128,8 @@ namespace xUnitTests.Service
 
             // Act
             await userService.DeleteUserAsync(partitionKey, rowKey);
+            //Task delUserTask = userService.DeleteUserAsync(partitionKey, rowKey);
+            //delUserTask.Wait(1000);
 
             // Assert
             _userRepoMock.Verify(repo => repo.DeleteUserAsync(partitionKey, rowKey), Times.Once);
