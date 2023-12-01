@@ -1,25 +1,23 @@
-# Use the official .NET 6 SDK image as the base image
+# Use the official .NET 5 SDK image as the base image
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /UserAPI
+WORKDIR /src
 
 # Copy the project file and restore dependencies
-COPY *.csproj .
-RUN dotnet restore
+COPY ["UserManagement/UserManagement.csproj", "UserManagement/"]
+RUN dotnet restore "UserManagement/MyApi.csproj"
 
 # Copy the entire project and build the application
 COPY . .
-# RUN dotnet restore ./UserAPI/UserAPI.csproj
-RUN dotnet build -c Release -o out
+WORKDIR "/src/UserManagement"
+RUN dotnet build "UserManagement.csproj" -c Release -o /app/build
 
 # Create a runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime
 WORKDIR /app
-
-# Copy the built application from the build stage
-COPY --from=build /app/out .
+COPY --from=build /app/build .
 
 # Expose the port on which the application will run
-EXPOSE 8081
+EXPOSE 80
 
 # Set the entry point for the container
-ENTRYPOINT ["dotnet", "UserManagement.dll"]
+ENTRYPOINT ["dotnet", "MyApi.dll"]
