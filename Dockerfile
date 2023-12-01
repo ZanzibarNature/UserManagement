@@ -3,8 +3,8 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 
 # Copy the project file and restore dependencies
-COPY ["UserManagement/UserManagement.csproj", "UserManagement/"]
-RUN dotnet restore "UserManagement/MyApi.csproj"
+COPY ["./UserManagement/UserManagement.csproj", "UserManagement/"]
+RUN dotnet restore "./UserManagement/MyApi.csproj"
 
 # Copy the entire project and build the application
 COPY . .
@@ -20,4 +20,4 @@ COPY --from=build /app/build .
 EXPOSE 80
 
 # Set the entry point for the container
-ENTRYPOINT ["dotnet", "MyApi.dll"]
+ENTRYPOINT ["dotnet", "UserManagement.dll"]
