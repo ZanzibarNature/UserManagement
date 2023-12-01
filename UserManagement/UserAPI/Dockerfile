@@ -6,11 +6,11 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR "/UserManagement"
+WORKDIR /src
 COPY ["UserAPI/UserAPI.csproj", "UserAPI/"]
 RUN dotnet restore "UserAPI/UserAPI.csproj"
 COPY . .
-WORKDIR "/UserManagement/UserAPI"
+WORKDIR "/src/UserAPI"
 RUN dotnet build "UserAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
