@@ -3,11 +3,13 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /UserManagement/UserAPI/
 
 # Copy the project file and restore dependencies
-COPY ./UserManagement/UserManagement.sln .
-RUN dotnet restore
+# COPY ./UserManagement/UserManagement.sln .
+# RUN dotnet restore
 
 # Copy the entire project and build the application
 COPY . .
+
+RUN dotnet restore ./UserAPI/UserAPI.csproj
 RUN dotnet build -c Release -o out
 
 # Create a runtime image
