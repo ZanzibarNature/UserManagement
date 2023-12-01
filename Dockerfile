@@ -2,9 +2,9 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /UserManagement/UserAPI/
 
-# Copy the project file and restore dependencies
-COPY ./UserManagement/UserAPI.csproj .
-RUN dotnet restore
+# # Copy the project file and restore dependencies
+# COPY ./UserManagement/UserAPI.csproj .
+# RUN dotnet restore
 
 # Copy the entire project and build the application
 COPY . .
