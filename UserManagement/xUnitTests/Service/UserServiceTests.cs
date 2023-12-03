@@ -8,11 +8,13 @@ namespace xUnitTests.Service
     {
         private readonly Mock<IUserRepo<UserEntity>> _userRepoMock;
         private readonly Guid _mockRowKey;
+        private readonly string _mockPartKey;
 
         public UserServiceTests()
         {
             _userRepoMock = new Mock<IUserRepo<UserEntity>>();
             _mockRowKey = Guid.NewGuid();
+            _mockPartKey = "User";
         }
 
         [Fact]
@@ -50,7 +52,7 @@ namespace xUnitTests.Service
 
             UserEntity userEntity = new UserEntity
             {
-                PartitionKey = "User",
+                PartitionKey = _mockPartKey,
                 RowKey = _mockRowKey.ToString(),
                 FirstName = "Jane",
                 LastName = "Doe",
@@ -72,7 +74,7 @@ namespace xUnitTests.Service
         {
             // Arrange
             IUserService userService = new UserService(_userRepoMock.Object);
-            var partitionKey = "User";
+            var partitionKey = _mockPartKey;
             var rowKey = _mockRowKey.ToString();
             var expectedUserEntity = new UserEntity
             {
@@ -101,11 +103,11 @@ namespace xUnitTests.Service
             // Arrange
             IUserService userService = new UserService(_userRepoMock.Object);
             var expectedUsers = new List<UserEntity>
-        {
-            new UserEntity { /* UserEntity properties */ },
-            new UserEntity { /* UserEntity properties */ },
-            // Add more user entities as needed
-        };
+            {
+                new UserEntity { /* UserEntity properties */ },
+                new UserEntity { /* UserEntity properties */ },
+                // Add more user entities as needed
+            };
 
             _userRepoMock.Setup(repo => repo.GetPageOfUsersAsync())
                 .ReturnsAsync(expectedUsers);
@@ -123,12 +125,12 @@ namespace xUnitTests.Service
         {
             // Arrange
             IUserService userService = new UserService(_userRepoMock.Object);
-            var partitionKey = "User";
+            var partitionKey = _mockPartKey;
             var rowKey = _mockRowKey.ToString();
 
             // Act
-            //await userService.DeleteUserAsync(partitionKey, rowKey);
-            userService.DeleteUserAsync(partitionKey, rowKey).Wait(1000);
+            await userService.DeleteUserAsync(partitionKey, rowKey);
+            //userService.DeleteUserAsync(partitionKey, rowKey).Wait(1000);
 
             // Assert
             _userRepoMock.Verify(repo => repo.DeleteUserAsync(partitionKey, rowKey), Times.Once);
