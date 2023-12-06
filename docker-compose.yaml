@@ -5,7 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    platform: ${TARGETARCH}
     image: usermanagement:latest
     container_name: UserManagement
     ports:
