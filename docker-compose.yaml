@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  user-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: ${TARGETARCH}
+    image: usermanagement:latest
+    container_name: UserManagement
+    ports:
+      - "8080:80"

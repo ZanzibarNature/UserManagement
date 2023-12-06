@@ -39,8 +39,14 @@ RUN dotnet publish -o /app
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine AS final
 WORKDIR /app
 
+# Set environment variables.
+ENV ASPNETCORE_URLS http://+:8080
+
 # Copy everything needed to run the app from the "build" stage.
 COPY --from=build /app .
+
+# Expose the port.
+EXPOSE 8080
 
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user
