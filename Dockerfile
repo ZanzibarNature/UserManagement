@@ -37,4 +37,4 @@ ENV ASPNETCORE_URL http://+:8080
 # Expose the port.
 EXPOSE 8080
 
-ENTRYPOINT ["dotnet", "UserAPI.dll"]
+ENTRYPOINT ["dotnet", "UserAPI.dll"] 
