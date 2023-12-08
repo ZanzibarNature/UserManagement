@@ -6,15 +6,15 @@ metadata:
     kompose.version: 1.30.0 (9d8dcb518)
   creationTimestamp: null
   labels:
-    io.kompose.service: user-api
-  name: user-api
-  namespace: default
+    io.kompose.service: usermanagement
+  name: usermanagement
+  namespace: kawa-foundation-app-dev
 spec:
   ports:
     - name: "8080"
       port: 8080
       targetPort: 80
   selector:
-    io.kompose.service: user-api
+    io.kompose.service: usermanagement
 status:
   loadBalancer: {}

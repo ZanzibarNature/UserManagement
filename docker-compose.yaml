@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  user-api:
+  usermanagement:
     build:
       context: .
       dockerfile: Dockerfile
-    image: usermanagement:latest
+    image: zanzibarinh/usermanagement:latest
     container_name: UserManagement
     ports:
       - "8080:80"

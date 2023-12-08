@@ -6,14 +6,14 @@ metadata:
     kompose.version: 1.30.0 (9d8dcb518)
   creationTimestamp: null
   labels:
-    io.kompose.service: user-api
-  name: user-api
-  namespace: default
+    io.kompose.service: usermanagement
+  name: usermanagement
+  namespace: kawa-foundation-app-dev
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: user-api
+      io.kompose.service: usermanagement
   strategy: {}
   template:
     metadata:
@@ -23,10 +23,10 @@ spec:
       creationTimestamp: null
       labels:
         io.kompose.network/usermanagement-default: "true"
-        io.kompose.service: user-api
+        io.kompose.service: usermanagement
     spec:
       containers:
-        - image: usermanagement:latest
+        - image: zanzibarinh/usermanagement:latest
           name: usermanagement
           ports:
             - containerPort: 80
