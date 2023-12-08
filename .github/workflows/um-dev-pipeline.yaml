@@ -58,28 +58,27 @@ jobs:
     runs-on: ubuntu-latest
     needs: docker
     steps:
-      - 
-        name: Deploy to OpenShift
+      - name: Set environment variables
         env:
           OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
           OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
           OPENSHIFT_NAMESPACE: kawa-foundation-app-dev
           GITREPO: https://github.com/ZanzibarNature/UserManagement.git
+      - name: Log in to OpenShift
         run: |
-          # Log in to OpenShift
           oc login --server="${OPENSHIFT_SERVER}" --token="${OPENSHIFT_TOKEN}" --insecure-skip-tls-verify
-            
-          # Set the OpenShift project/namespace
+      - name: Set the OpenShift project/namespace
+        run: |
           oc project "${OPENSHIFT_NAMESPACE}"
-
-          # Clone the git repo
+      - name: Clone the git repo
+        run: |
           git clone "${GITREPO}"
-
-          # Navigate to the repository directory
+      - name: Navigate to the repository directory
+        run: |
           cd UserManagement/
-
-          # Checkout the dev branch
+      - name: Checkout the dev branch
+        run: |
           git checkout dev
-
-          # Example: Deploy using Helm
+      - name: Deploy using Helm
+        run: |
           helm upgrade user-management docker-compose/
