@@ -7,5 +7,3 @@ services:
       dockerfile: Dockerfile
     image: zanzibarinh/usermanagement:latest
     container_name: UserManagement
-    ports:
-      - "8080:80"
