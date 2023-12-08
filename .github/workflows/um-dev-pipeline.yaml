@@ -77,4 +77,4 @@ jobs:
         run: git checkout dev
       
       - name: Deploy using Helm
-        run: helm upgrade user-management docker-compose/
+        run: helm upgrade user-management docker-compose/ 
