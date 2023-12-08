@@ -58,20 +58,20 @@ jobs:
     needs: docker
     steps:
       - name: Login to OpenShift
-        run: oc login --server="${OPENSHIFT_SERVER}" --token="${OPENSHIFT_TOKEN}" --insecure-skip-tls-verify
-        with:
+        env:
           OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
           OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
+        run: oc login --server="${OPENSHIFT_SERVER}" --token="${OPENSHIFT_TOKEN}" --insecure-skip-tls-verify
       
       - name: Set the OpenShift project/namespace
-        run: oc project "${OPENSHIFT_NAMESPACE}"
-        with:
+        env:
           OPENSHIFT_NAMESPACE: kawa-foundation-app-dev
+        run: oc project "${OPENSHIFT_NAMESPACE}"
       
       - name: Clone the git repo
-        run: git clone "${GITREPO}"
-        with:
+        env:
           GITREPO: https://github.com/ZanzibarNature/UserManagement.git
+        run: git clone "${GITREPO}"
       
       - name: Navigate to the repository directory
         run: cd UserManagement/
