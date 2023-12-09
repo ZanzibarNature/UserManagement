@@ -57,7 +57,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: docker
     steps:
-      - name: Authenticate and set context
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up OpenShift CLI
         uses: redhat-actions/oc-login@v1
         with:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
@@ -65,16 +68,10 @@ jobs:
           insecure_skip_tls_verify: true
           namespace: kawa-foundation-app-dev
       
-      - name: Clone git repo
-        env:
-          GITREPO: https://github.com/ZanzibarNature/UserManagement.git
-        run: git clone "${GITREPO}"
-      
-      - name: Navigate to the repository directory
-        run: cd UserManagement/
-      
-      - name: Checkout the dev branch
-        run: git checkout dev
-      
-      - name: Deploy using Helm
-        run: helm upgrade user-management docker-compose/ 
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy with Helm
+        run: helm upgrade --install user-management docker-compose/
