@@ -72,6 +72,6 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-
+ 
       - name: Deploy with Helm
         run: helm upgrade --install user-management docker-compose/
