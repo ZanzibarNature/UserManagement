@@ -1,4 +1,5 @@
-﻿using Azure.Data.Tables;
+﻿using Azure;
+using Azure.Data.Tables;
 
 namespace UserAPI.DAL
 {
@@ -6,7 +7,7 @@ namespace UserAPI.DAL
     {
         Task<T> GetUserByKeyAsync(string partitionKey, string rowKey);
         Task<IEnumerable<T>> GetPageOfUsersAsync();
-        Task<T> UpsertUserAsync(T user);
+        Task<Response> UpsertUserAsync(T user);
         Task DeleteUserAsync(string partitionKey, string rowKey);
     }
 }

@@ -1,12 +1,15 @@
+using Azure;
 using Moq;
 using UserAPI.DAL;
 using UserAPI.Domain;
 using UserAPI.Service;
+
 namespace xUnitTests.Service
 {
     public class UserServiceTests
     {
         private readonly Mock<IUserRepo<UserEntity>> _userRepoMock;
+        private readonly IUserService _userService;
         private readonly Guid _mockRowKey;
         private readonly string _mockPartKey;
 
@@ -15,13 +18,13 @@ namespace xUnitTests.Service
             _userRepoMock = new Mock<IUserRepo<UserEntity>>();
             _mockRowKey = Guid.NewGuid();
             _mockPartKey = "User";
+            _userService = new UserService(_userRepoMock.Object);
         }
 
         [Fact]
         public async Task CreateUserAsync_ShouldCreateUserAndReturnUserEntity()
         {
             // Arrange
-            IUserService userService = new UserService(_userRepoMock.Object);
             var createUserDto = new CreateUserDTO
             {
                 UserType = "User",
@@ -31,7 +34,7 @@ namespace xUnitTests.Service
             };
 
             // Act
-            var result = await userService.CreateUserAsync(createUserDto);
+            var result = await _userService.CreateUserAsync(createUserDto);
 
             // Assert
             Assert.NotNull(result);
@@ -48,8 +51,6 @@ namespace xUnitTests.Service
         public async Task UpdateUserAsync_ShouldUpdateUserAndReturnUserEntity()
         {
             // Arrange
-            IUserService userService = new UserService(_userRepoMock.Object);
-
             UserEntity userEntity = new UserEntity
             {
                 PartitionKey = _mockPartKey,
@@ -61,11 +62,11 @@ namespace xUnitTests.Service
             };
 
             // Act
-            var result = await userService.UpdateUserAsync(userEntity);
+            Response result = await _userService.UpdateUserAsync(userEntity);
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(userEntity, result);
+            Assert.False(result.IsError);
             _userRepoMock.Verify(repo => repo.UpsertUserAsync(userEntity), Times.Once);
         }
 
@@ -73,7 +74,6 @@ namespace xUnitTests.Service
         public async Task GetUserByKeyAsync_ShouldReturnUserEntity()
         {
             // Arrange
-            IUserService userService = new UserService(_userRepoMock.Object);
             var partitionKey = _mockPartKey;
             var rowKey = _mockRowKey.ToString();
             var expectedUserEntity = new UserEntity
@@ -90,7 +90,7 @@ namespace xUnitTests.Service
                 .ReturnsAsync(expectedUserEntity);
 
             // Act
-            var result = await userService.GetUserByKeyAsync(partitionKey, rowKey);
+            var result = await _userService.GetUserByKeyAsync(partitionKey, rowKey);
 
             // Assert
             Assert.NotNull(result);
@@ -101,7 +101,6 @@ namespace xUnitTests.Service
         public async Task GetPageOfUsersAsync_ShouldReturnListOfUserEntities()
         {
             // Arrange
-            IUserService userService = new UserService(_userRepoMock.Object);
             var expectedUsers = new List<UserEntity>
             {
                 new UserEntity { /* UserEntity properties */ },
@@ -113,7 +112,7 @@ namespace xUnitTests.Service
                 .ReturnsAsync(expectedUsers);
 
             // Act
-            var result = await userService.GetPageOfUsersAsync();
+            var result = await _userService.GetPageOfUsersAsync();
 
             // Assert
             Assert.NotNull(result);
@@ -124,13 +123,11 @@ namespace xUnitTests.Service
         public async Task DeleteUserAsync_ShouldDeleteUser()
         {
             // Arrange
-            IUserService userService = new UserService(_userRepoMock.Object);
             var partitionKey = _mockPartKey;
             var rowKey = _mockRowKey.ToString();
 
             // Act
-            await userService.DeleteUserAsync(partitionKey, rowKey);
-            //userService.DeleteUserAsync(partitionKey, rowKey).Wait(1000);
+            await _userService.DeleteUserAsync(partitionKey, rowKey);
 
             // Assert
             _userRepoMock.Verify(repo => repo.DeleteUserAsync(partitionKey, rowKey), Times.Once);

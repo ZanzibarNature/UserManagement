@@ -32,10 +32,9 @@ namespace UserAPI.DAL
             return results;
         }
 
-        public async Task<T> UpsertUserAsync(T user)
+        public async Task<Response> UpsertUserAsync(T user)
         {
-            await _tableClient.UpsertEntityAsync(user);
-            return user;
+            return await _tableClient.UpsertEntityAsync(user);
         }
 
         public async Task DeleteUserAsync(string partitionKey, string rowKey)

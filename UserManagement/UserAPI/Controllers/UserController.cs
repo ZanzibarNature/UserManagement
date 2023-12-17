@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserAPI.Domain;
 using UserAPI.Service;
@@ -45,16 +46,16 @@ namespace UserAPI.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<IActionResult> UpdateUser([FromBody] UserEntity user)
+        public async Task<IActionResult> UpdateUser([FromBody] UserEntity updatedUser)
         {
-            if (user == null)
+            if (updatedUser == null)
             {
                 return BadRequest("Invalid data in the request body");
             }
 
-            UserEntity updatedUser = await _userService.UpdateUserAsync(user);
+            Response result = await _userService.UpdateUserAsync(updatedUser);
 
-            return Ok(updatedUser);
+            return result.IsError ? NotFound("Given keypair does not exist") : Ok(updatedUser);
         }
 
         [HttpDelete("Delete/{partitionKey}/{rowKey}")]

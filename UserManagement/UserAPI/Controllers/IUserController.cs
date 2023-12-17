@@ -8,7 +8,7 @@ namespace UserAPI.Controllers
         Task<IActionResult> GetByKey(string partitionKey, string rowKey);
         Task<IActionResult> GetPageOfUsers();
         Task<IActionResult> CreateUser([FromBody] CreateUserDTO userDTO);
-        Task<IActionResult> UpdateUser([FromBody] UserEntity user);
+        Task<IActionResult> UpdateUser([FromBody] UserEntity updatedUser);
         Task<IActionResult> DeleteUser(string partitionKey, string rowKey);
     }
 }

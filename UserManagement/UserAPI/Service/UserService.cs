@@ -28,10 +28,9 @@ namespace UserAPI.Service
             return newUser;
         }
 
-        public async Task<UserEntity> UpdateUserAsync(UserEntity user)
+        public async Task<Response> UpdateUserAsync(UserEntity user)
         {
-            var updatedUser = await _userRepo.UpsertUserAsync(user);
-            return updatedUser;
+            return await _userRepo.UpsertUserAsync(user);
         }
 
         public async Task<UserEntity> GetUserByKeyAsync(string partitionKey, string rowKey)
