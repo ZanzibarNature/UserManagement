@@ -25,9 +25,9 @@ jobs:
         run: dotnet build --no-restore
         working-directory: ./UserManagement
 
-      # - name: Test
-      #   run: dotnet test --no-build --verbosity normal
-      #   working-directory: ./UserManagement
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+        working-directory: ./UserManagement
 
   docker:
     runs-on: ubuntu-latest
