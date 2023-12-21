@@ -11,9 +11,9 @@ metadata:
   namespace: kawa-foundation-app-dev
 spec:
   ports:
-    - name: "8080"
-      port: 8080
-      targetPort: 8080
+    - name: "8081"
+      port: 80
+      targetPort: 8081
   selector:
     io.kompose.service: usermanagement
 status:

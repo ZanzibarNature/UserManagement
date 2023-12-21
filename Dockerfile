@@ -31,13 +31,13 @@ RUN adduser \
     appuser
 
 # Set environment variables.
-ENV ASPNETCORE_URL http://+:8080
+ENV ASPNETCORE_URL http://+:8081
 
 # Give User 1001 ownership and access to /app
 RUN chown -R 1001:0 /app && chmod -R og+rwx /app
 
 # Expose the port.
-EXPOSE 8080
+EXPOSE 8081
 
 # Run container by default as user with id 1001 (default)
 USER appuser
