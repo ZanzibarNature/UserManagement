@@ -37,7 +37,7 @@ ENV ASPNETCORE_URL http://+:8081
 RUN chown -R 1001:0 /app && chmod -R og+rwx /app
 
 # Expose the port.
-EXPOSE 8081
+EXPOSE 8080
 
 # Run container by default as user with id 1001 (default)
 USER appuser
