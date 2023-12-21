@@ -29,7 +29,7 @@ RUN adduser \
     --no-create-home \
     --uid "${UID}" \
     appuser
-USER appuser
+# USER appuser
 
 # Set environment variables.
 ENV ASPNETCORE_URL http://+:8080
@@ -41,6 +41,6 @@ RUN chown -R 1001:0 /app && chmod -R og+rwx /app
 EXPOSE 8080
 
 # Run container by default as user with id 1001 (default)
-USER 1001
+USER appuser
 
 ENTRYPOINT ["dotnet", "UserAPI.dll"] 
