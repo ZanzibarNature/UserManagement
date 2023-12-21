@@ -31,7 +31,7 @@ RUN adduser \
     appuser
 
 # Set environment variables.
-ENV ASPNETCORE_URL http://+:8081
+ENV ASPNETCORE_URL http://+:8080
 
 # Give User 1001 ownership and access to /app
 RUN chown -R 1001:0 /app && chmod -R og+rwx /app
