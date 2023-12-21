@@ -29,7 +29,6 @@ RUN adduser \
     --no-create-home \
     --uid "${UID}" \
     appuser
-# USER appuser
 
 # Set environment variables.
 ENV ASPNETCORE_URL http://+:8080
