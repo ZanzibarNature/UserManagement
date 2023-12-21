@@ -51,7 +51,7 @@ namespace xUnitTests.Service
         public async Task UpdateUserAsync_ShouldUpdateUserAndReturnUserEntity()
         {
             // Arrange
-            UserEntity userEntity = new UserEntity
+            UserEntity updatedEntity = new UserEntity
             {
                 PartitionKey = _mockPartKey,
                 RowKey = _mockRowKey.ToString(),
@@ -61,13 +61,23 @@ namespace xUnitTests.Service
                 UserType = UserType.User
             };
 
+            // Setup the UpsertUserAsync method to return a successful Azure.Response
+            var successResponse = new Mock<Response>();
+            successResponse.SetupGet(r => r.Status).Returns(200);
+            successResponse.SetupGet(r => r.IsError).Returns(false);
+
+            var succesResponseTask = Task.FromResult(successResponse.Object);
+
+            _userRepoMock.Setup(repo => repo.UpsertUserAsync(It.IsAny<UserEntity>()))
+                .Returns(succesResponseTask);
+
             // Act
-            Response result = await _userService.UpdateUserAsync(userEntity);
+            Response result = await _userService.UpdateUserAsync(updatedEntity);
 
             // Assert
-            //Assert.NotNull(result);
-            //Assert.False(result.IsError);
-            _userRepoMock.Verify(repo => repo.UpsertUserAsync(userEntity), Times.Once);
+            Assert.NotNull(result);
+            Assert.False(result.IsError);
+            _userRepoMock.Verify(repo => repo.UpsertUserAsync(updatedEntity), Times.Once);
         }
 
         [Fact]
