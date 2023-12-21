@@ -1,4 +1,5 @@
-﻿using UserAPI.DAL;
+﻿using System.Net;
+using UserAPI.DAL;
 using UserAPI.Domain;
 using UserAPI.Service;
 
@@ -13,6 +14,11 @@ namespace UserAPI
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                options.Listen(IPAddress.Any, 8080);
+            });
 
             // Add Services
             builder.Services.AddScoped<IUserService, UserService>();
