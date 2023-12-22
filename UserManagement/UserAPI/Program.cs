@@ -20,10 +20,10 @@ namespace UserAPI
                 options.Listen(IPAddress.Any, 8080);
             });
 
-            // Add Azure Storage connection string (from GitHub Secrets) to IConfiguration
+            // Add Azure Storage connection string (from User Secrets) to IConfiguration
             builder.Configuration.AddInMemoryCollection(new Dictionary<string, string>
             {
-                {"ConnectionStrings:AzureStorageConnection", builder.Configuration["AZURE_STORAGE_CONNECTION_STRING"]}
+                {"ConnectionStrings:AzureStorageConnection", builder.Configuration["ConnectionStrings:AzureStorageConnection"]}
             });
 
             // Add Services
