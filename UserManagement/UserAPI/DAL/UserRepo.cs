@@ -7,10 +7,12 @@ namespace UserAPI.DAL
     public class UserRepo<T> : IUserRepo<T> where T : class, ITableEntity, new()
     {
         private readonly TableClient _tableClient;
+        private readonly IConfiguration _config;
 
-        public UserRepo()
+        public UserRepo(IConfiguration configuration)
         {
-            TableServiceClient serviceClient = new TableServiceClient("UseDevelopmentStorage=true");
+            _config = configuration;
+            TableServiceClient serviceClient = new TableServiceClient(_config["ConnectionStrings:AzureStorageConnection"]);
             serviceClient.CreateTableIfNotExists("users");
             _tableClient = serviceClient.GetTableClient("users");
         }
