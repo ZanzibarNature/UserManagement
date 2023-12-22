@@ -20,6 +20,12 @@ namespace UserAPI
                 options.Listen(IPAddress.Any, 8080);
             });
 
+            // Add Azure Storage connection string (from GitHub Secrets) to IConfiguration
+            builder.Configuration.AddInMemoryCollection(new Dictionary<string, string>
+            {
+                {"ConnectionStrings:AzureStorageConnection", builder.Configuration["AZURE_STORAGE_CONNECTION_STRING"]}
+            });
+
             // Add Services
             builder.Services.AddScoped<IUserService, UserService>();
 
@@ -27,7 +33,7 @@ namespace UserAPI
             builder.Services.AddScoped<IUserRepo<UserEntity>, UserRepo<UserEntity>>();
 
             // TO DO: Add security via the KeyCloak server
-    
+
             var app = builder.Build();
 
             if (!app.Environment.IsDevelopment())
