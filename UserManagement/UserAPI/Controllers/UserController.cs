@@ -32,7 +32,6 @@ namespace UserAPI.Controllers
         }
 
         [HttpPost("Create")]
-        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDTO userDTO)
         {
             if (userDTO == null)
